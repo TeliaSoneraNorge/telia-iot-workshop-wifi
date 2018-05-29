@@ -1,44 +1,66 @@
 # Telia IoT Workshop
-Welcome to the Telia IoT Workshop! Today we will try out some cutting-edge IoT technology, namely the brand new [NB-IoT](https://www.u-blox.com/en/narrowband-iot-nb-iot) network and the [Sodaq NB-IoT Arduino shield](https://shop.sodaq.com/en/nb-iot-shield-deluxe-dual-band-8-20.html).
+Welcome to the Telia IoT Workshop! Today we will learn some basic electronics and create a wifi-based temperature and humidity sensor.
 
 Learn more about IoT in Telia at https://telia.no/iot and https://telia.io.
 
+## Electric Safety
+* The kit used in this workshop operates at 5 Volts and below. This means there is no risk for electric shocks, however incorrect use may still break the components themselves.
+* Do not put the electronics on conducting surfaces such as metal laptops, powerbanks or other things made from metal.
+* Always disconnect power before changing connections.
+* Double check connections before connecting power to avoid breaking the components.
 
 ## 1. Install software
-<img src=img/crowduino.jpg width=400px>
+<img src=img/hardware.jpg width=400px>
 
-The Crowduino M0 is a circuit board with a microcontroller and is compatible with [the Arduino echosystem](https://www.arduino.cc/en/Guide/Introduction). To program it, we need some software. 
+The NodeMCU is a circuit board containing the popular ESP8266 module with built-in wifi connectivity, compatible with the popular [Arduino echosystem](https://www.arduino.cc/en/Guide/Introduction). To program it, we need some software on our computer.
 
-* Follow this guide to set up your computer: https://www.elecrow.com/wiki/index.php?title=Step1:_Download_Arduino_IDE_and_install_Arduino_driver
-* After installing the Arduino software, open it and go to "Tools", "Board", "Boards Manager". Search for "Arduino M0" and install the *Arduino SAMD Boards* package.
+* Install the latest version of the Arduino IDE for you computer: https://www.arduino.cc/en/Main/Software
+* Install NodeMCU CP201x USB Driver
+	* [OS X](http://www.silabs.com/Support%20Documents/Software/Mac_OSX_VCP_Driver.zip)
+	* [Windows](http://www.silabs.com/Support%20Documents/Software/CP210x_Windows_Drivers.zip)
+	* [Linux](http://www.silabs.com/Support%20Documents/Software/Linux_3.x.x_VCP_Driver_Source.zip)
+	* [Other](http://www.silabs.com/products/mcu/pages/usbtouartbridgevcpdrivers.aspx)
+* Now, we need to install support for the ESP8266 module. Open up your newly installed Arduino software and click `Arduino > Preferences...`. Insert the following URL in the box titled `Additional Boards Manager URLs`:
+
+	```
+	http://arduino.esp8266.com/stable/package_esp8266com_index.json
+	```
+	<img src=img/preferences.png width=500px>
+* Go to `Tools > Board > Boards Manager`. Search for "esp8266", click on `esp8266 by ESP8266 Community` and then `Install`. 
 
 	<img src=img/board.png width=500px>
 
 
 ## 2. Blink a light
-Make sure everything is working by running a simple example. Follow this guide: https://www.elecrow.com/wiki/index.php?title=Step2:_The_very_basic_experiments_with_Crowduino
-(**Note:** select "Arduino M0" in step 3)
+Make sure everything is working by running a simple example.
 
-You should now see a LED on the board blinking.
+* Click `File > Examples > Basics > Blink`. This should open up a new window with some code.
+* Tell the computer what board we are using by clicking `Tools > Board > NodeMCU 1.0`
+* Connect the NodeMCU to a USB port. Be careful to not place the board on metal as the pins may short out and break the board.
+* Click `Tools > Port` and select the port. On Mac it is called `/dev/cu.SLAB_USBtoUART`. On Windows it is something like `COM3`, the number may vary. 
+* Press the upload button <img src=img/upload.png width=20px> to compile and send the program to the NodeMCU.
+* You should now see a blue LED flashing rapidly on the opposite side from the USB connector. It is indicating data being transferred as the program is uploaded to the board. 
 
-If uploading the code fails, try pushing the reset button on the side of the board right after clicking the upload button.
+After uploading, the blue "programmable" LED closer to the USB connector should start blinking once per second.
+
+If uploading the code fails, try pushing the `RST` button beside the USB connector right after clicking the upload button.
 
 **Bonus:** try changing the delays and adding in more lines to create other blinking patterns.
 
 
 ## 3. Print a message
-It is sometimes helpful to print out a message to yourself to figure out how the code works. Try out this program and see if you can understand it. Create a new file in the Arduino software and paste the code below, then press upload (arrow button). After uploading, open the serial monitor (button on the top right).
+It is sometimes helpful to print out a message to yourself to figure out how the code works. Try out this program and see if you understand how it works. Create a new file in the Arduino software and paste the code below, then press upload <img src=img/upload.png width=20px>. After uploading, open the serial monitor (button on the top right).
 
 ```c
 int messageNumber = 0;
 
 void setup() {
-  SerialUSB.begin(9600);
-  SerialUSB.println("Starting program");
+  Serial.begin(9600);
+  Serial.println("Starting program");
 }
 
 void loop() {
-  SerialUSB.println("This is message number " + String(messageNumber));
+  Serial.println("This is message number " + String(messageNumber));
   messageNumber++;
   delay(1000);
 }
@@ -46,17 +68,22 @@ void loop() {
 
 <img src="img/counter.png" width=500px>
 
+You should see a window with text messages appearing once per second:
+
+<img src="img/serial_monitor.png" width=500px>
+
+
 **Bonus:** try adding another line with ```SerialUSB.print("Hi! ");``` and upload again. See the difference between ```print``` and ```println```?
 
 ## 4. Get connected
-The hardware is working, now let's make it talk to the Internet! The Telia NB-IoT service has been configured to forward all messages to "your" server. For today, we will use an existing IoT platform to play with the data, but it could of course also be sent directly to your own app or website.
+The hardware is working, now let's make it talk to the Internet! For today, we will use an existing IoT platform to play with the data, but it could of course also be sent directly to your own app or website.
 
 * Go to https://maker.allthingstalk.com and sign up for an account.
-* Log in, press "Connect a device" and select "WIFI/LAN devices", then "your own". **Note:** the option "SODAQ NB-IoT shield" in the first tab only works with T-Mobile in the Netherlands and can not be used.
+* Log in, press `Connect a device` and select `WIFI/LAN devices`, then `Arduino`.
 
 	<img src="img/new_device.png" width=500px>
 
-* Each device can have many different sensors, or "assets". Add a new asset to your device by clicking "Create asset". Call the asset "counter" (important!) and set the type to "Integer".
+* Each device can have many different sensors, or "assets". Add a new asset to your device by clicking `Create asset`. Call the asset `counter` (important!) and set the type to `Integer`.
 
 	<img src="img/new_asset.png" width=400px>
 
@@ -66,30 +93,33 @@ The hardware is working, now let's make it talk to the Internet! The Telia NB-Io
 
 	As you can see, your brand new counter has the value "--". Let's fix that!
 
-* Download the code in this repository by clicking "Clone or Download" and then "Download ZIP" at the top of this page.
+* You now need some code libraries and examples from AllThingsTalk. Install their SDK by following the guide at: 
+  
+  http://docs.allthingstalk.com/developers/sdk/arduino/
 
-	<img src="img/download.png" width=300px>
+* Download the code in this repository by clicking the link below:
+
+  https://github.com/TeliaSoneraNorge/telia-iot-workshop-wifi/archive/master.zip
+  
 
 * In Arduino, click "Sketch", "Include library", "Add .ZIP library" and coose the file you just downloaded.
-* Open the example by clicking "File", "Examples", "Telia NB-IoT", "AllThingsTalk_counter"
+-->
+* Open the example by clicking `File  > Examples > Telia-AllThingsTalk > AllThingsTalk_counter`
 	<img src="img/example.png" width=500px>
-* In the code, put in proper values in the four variables at the top.
-
-	<img src="img/code.png" width=500px>
-	
-	Device ID and token can be found in AllThingsTalk. Go back to your device page and click "Settings" in the top right corner, then "Authentication".
-	
-	<img src="img/authentication.png" width=700px>
-	
-	The server and port should be:
-	
+* In the code, replace `XXXXXX` with proper values in the two variables at the top.
+  
+  
 	```c
-	const String server = "34.240.60.70";
-	const String port = "33333";
+	// AllThingsTalk device credentials
+	char deviceId[] = "XXXXXX";
+	char token[] = "maker:XXXXXXXXXXXXXX";
 	```
-* Connect the Sodaq NB-IoT shield to the Crowduino if you have not already. Make sure all the pins align before pressing down.
-* Attach the antenna to its connector if it is not mounted.
-* Insert the Telia SIM-card if it is not already in place.
+
+
+	Device ID and token can be found in AllThingsTalk. Go back to your device page and click `Settings` in the top right corner, then `Authentication`.
+
+	<img src="img/authentication.png" width=700px>
+
 * Upload the code to the device, then go to the website to see your data updating! **Note:** it may take up to a minute before the data appears the first time. You can check the status in the serial monitor.
 
 **Bonus:** Try setting up boolean, number and string assets in AllThingsTalk and see if you can send in other types of data. All assets must have different names, but they can be updated the same way in the code.
@@ -126,7 +156,7 @@ General hints:
 * Try not to write all the code at once, start simple and check that it works along the way.
 * If you want to connect more things to the Crowduino, note that most pins are already in use by the NB-IoT shield. Available pins are D1, D2, D8-D12 and A0-A3. See the full schematic here:
 	http://support.sodaq.com/wp-content/uploads/2017/02/nb-iot_shield_rev3b_sch-1.pdf
-	
+
 
 ## Sources
 
