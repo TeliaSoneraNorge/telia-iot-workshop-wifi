@@ -125,43 +125,94 @@ The hardware is working, now let's make it talk to the Internet! For today, we w
 **Bonus:** Try setting up boolean, number and string assets in AllThingsTalk and see if you can send in other types of data. All assets must have different names, but they can be updated the same way in the code.
 
 ## 5. Read sensors
+Now that the wifi is working, let's move on to reading data from a sensor. The kit includes a DHT22 sensor which can sense temperature and humidity. You need to install another library to handle the communication to the sensor and there is an example for how to use it included in the files you just installed.
 
-The Sodaq NB-IoT shield not only has connectivity, it also has several sensors;
+* Disconnect the NodeMCU from the computer and wire the DHT22 sensor like this:
 
-* HTS221 temperature and humidity sensor
-* LPS22HB air pressure sensor
-* LSM303C accelerometer, compass and temperature sensor
-* Ublox SAM-M8Q GPS
+  <img src="img/nodemcu-sensor.jpg" width=500px>
+  
+  | NodeMCU pin   | DHT22 pin     |
+  | ------------- | ------------- |
+  | 3v3           | +             |
+  | GND           | -             |
+  | D7            | out           |
+  
+* Click `Sketch > Include Library > Manage Libraries`, then search for `DHT` and install the `DHT sensor library by Adafruit`. Also search for and install `Adafruit Unified Sensor`.
+* Open the example code by clicking `File > Examples > Telia-AllThingsTalk > DHT22_HumidityTemperature`. Examine the code and see how it works.
+* Press upload and check that you see temperature readings in the serial monitor.
 
-There are examples for how to use each of these in the examples menu where we found the counter example earlier. Let´s start by reading the temperature from the HTS221 and send it to AllThingsTalk.
+**Bonus:** Play around with the code and see if you can adjust the accuracy of the temperature if it seems too high or too low.
 
-* Open the example code by clicking "File", "Examples", "Telia-AllThingsTalk", "HTS221_HumidityTemperature". Upload it and check that you see temperature readings in the serial monitor.
-* Create a new asset in AllThingsTalk with the name "temperature" and the type "Number"
-	<img src="img/temperature.png" width=300px>
-* Copy in the relevant parts of the code from the previous example into the new one. Insert the device id, token and server information like before but use the new asset.
+## 6. Write to the display
+You now have sensing and connectivity in place. The third component is presenting data on the LCD display. This kit includes a SD1306 0.96" 128x64 pixel LCD display that can be used to show custom graphics. Again, there is an example availabele once you install some libraries.
 
-* Upload the code and check out your new weather station of the future!
+* Disconnect the NodeMCU from the computer and wire the SD1306 sensor like this:
 
-**Bonus:** Cerate a pinboard in AllThingsTalk and set up a graph or a gauge for you sensor
+  <img src="img/nodemcu-lcd.jpg" width=500px>
+  
+  | NodeMCU pin   | SD1306 pin    |
+  | ------------- | ------------- |
+  | 3v3           | VDD           |
+  | GND           | GND           |
+  | D1            | SCK           |
+  | D2            | SDA           |
+  
+* Click `Sketch > Include Library > Manage Libraries`, then search for `ssd1306` and install the `Adafruit SSD1306 by Adafruit`. Also search for and install the `Adafruit GFX Library`.
+* Open the example code by clicking `File > Examples > Telia-AllThingsTalk > SSD1306_Display`. Examine the code and see how it works.
+* The library is configured for a 128x32 display by default. If you press upload, the compiler will give you the following warning:
+  
+  ```
+  #error("Height incorrect, please fix Adafruit_SSD1306.h!");
+  ```
+  
+  As it states, we need to edit a file called `Adafruit_SSD1306.h`:
+  * Click `Sketch > Show Sketch Folder` to bring up a Finder or Explorer window. 
+  * Navigate one level up. You should now be in your `Arduino` folder.
+  * Go into `libraries > Adafruit_SSD1306` and open `Adafruit_SSD1306.h`.
+  * Scroll down to the following part on line 72-76:
+  
+    ```
+        -----------------------------------------------------------------------*/
+	 // #define SSD1306_128_64
+	 	#define SSD1306_128_32
+	 // #define SSD1306_96_16
+	 /*=========================================================================*/
+    ```
+    and change it to:
+    
+    ```
+        -----------------------------------------------------------------------*/
+	    #define SSD1306_128_64
+	 //	#define SSD1306_128_32
+	 // #define SSD1306_96_16
+	 /*=========================================================================*/
+    ```
+    * Save and close the file.
+* Press upload and check that you see different graphics demos on the display.
 
-## 6. Do your thing
-That's it, you are now a certified IoT hardware maker! Go ahead and think of a project you would like to make. You can also add more sensors, lights or switches if you like. Here are some suggestions:
+**Bonus:** Play around with the code and try to make it display something like "20 C" in big letters.
 
-* Weather station - read all the air-related sensors and publish on a dashboard.
-* Movement alarm - read the accelerometer values and send a message if it changes. Bonus: also add a PIR motion sensor.
-* Compass - read the compass in the IMU and make a graph that plots where the device is headed.
+## 7. Combine Everything
+That's it, you are now a certified IoT hardware maker! The final step of this workshop is to combine all the examples so that the NodeMCU can:
 
-General hints:
-* Note that the GPS probably will not work indoors, but you can of course try if you like.
-* Try not to write all the code at once, start simple and check that it works along the way.
-* If you want to connect more things to the Crowduino, note that most pins are already in use by the NB-IoT shield. Available pins are D1, D2, D8-D12 and A0-A3. See the full schematic here:
-	http://support.sodaq.com/wp-content/uploads/2017/02/nb-iot_shield_rev3b_sch-1.pdf
+* Connect to AllThingsTalk
+* Read temperature and humidity from the sensor
+* Display that temperature and humidity on the display
+* Send that temperature and humidity to AllThingsTalk
 
+You can, for example, start by saving a copy of the DHT22 example, then copy and paste code from the display example until you can see the sensor values on the display, then continue to add also the code from the AllThingsTalk example.
+
+If you want some hints, there is also an example of how you might do this if you click `File > Examples > Telia-AllThingsTalk > AllThingsTalk_DHT22_SSD1306`. Just put in your `deviceId` and `token` like before and upload.
+
+### Hints for further improvement
+The provided example works fine in most cases, but does have some deliberate limitations for you to work on. For example:
+
+* The display is not fully utilised.
+* The NodeMCU sometimes prints "nan" on the display if it for some reason fails to read the sensor value. You could of course check this in the code and read the sensor again, or just not update the display until you get a proper value. 
+* The code assumes everything is fine and does not reconnect if it happens to loose the wifi connection. This might happen after a few hours and force you to reset the device to make it connect again, if you do not make some changes in the code...
 
 ## Sources
+**---TODO---**
 
 To make all the needed libraries available with a single install, this repository contains software for the Sodaq NB-IoT shield borrowed from Sodaq's own examples and a copy of the Sparkfun IMU library. Some modifications have been made to make the examples work on the Crowduino. The original repositories can be found here:
 
-https://github.com/janvl1234/Sodaq_NBIoT_examples
-
-https://github.com/sparkfun/SparkFun_LSM303C_6_DOF_IMU_Breakout_Arduino_Library
