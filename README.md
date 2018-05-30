@@ -141,7 +141,7 @@ Now that the wifi is working, let's move on to reading data from a sensor. The k
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > DHT22_HumidityTemperature`. Examine the code and see how it works.
 * Press upload and check that you see temperature readings in the serial monitor.
 
-**Bonus:** Play around with the code and see if you can adjust the accuracy of the temperature if it seems too high or too low.
+**Bonus:** Play around with the code and see if you can adjust the accuracy of the temperature if it seems too high or too low. Temperature sensors usually have good relative accuracy, but may need "calibration" by adding or subtracting a few degrees to get good absolute accuracy.
 
 ## 6. Write to the display
 You now have sensing and connectivity in place. The third component is presenting data on the LCD display. This kit includes a SD1306 0.96" 128x64 pixel LCD display that can be used to show custom graphics. Again, there is an example availabele once you install some libraries.
@@ -212,7 +212,5 @@ The provided example works fine in most cases, but does have some deliberate lim
 * The code assumes everything is fine and does not reconnect if it happens to loose the wifi connection. This might happen after a few hours and force you to reset the device to make it connect again, if you do not make some changes in the code...
 
 ## Sources
-**---TODO---**
-
-To make all the needed libraries available with a single install, this repository contains software for the Sodaq NB-IoT shield borrowed from Sodaq's own examples and a copy of the Sparkfun IMU library. Some modifications have been made to make the examples work on the Crowduino. The original repositories can be found here:
+To make the examples work without on the NodeMCU, original examples from AllThingsTalk and Adafruit libraries have been modified and added here to save you some time. If you have been following the guide, the originals have been installed as part of each library and should be available from `File > Examples`.
 
