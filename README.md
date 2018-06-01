@@ -103,9 +103,10 @@ The hardware is working, now let's make it talk to the Internet! For today, we w
   
 
 * In Arduino, click "Sketch", "Include library", "Add .ZIP library" and coose the file you just downloaded.
--->
-* Open the example by clicking `File  > Examples > Telia-AllThingsTalk > AllThingsTalk_counter`
+* Open the example by clicking `File  > Examples > Telia-IoT-Workshop-Wifi > AllThingsTalk_counter`
+
 	<img src="img/example.png" width=500px>
+
 * In the code, replace `XXXXXX` with proper values in the two variables at the top.
   
   
@@ -121,6 +122,14 @@ The hardware is working, now let's make it talk to the Internet! For today, we w
 	<img src="img/authentication.png" width=700px>
 
 * Upload the code to the device, then go to the website to see your data updating! **Note:** it may take up to a minute before the data appears the first time. You can check the status in the serial monitor.
+
+**Note:** There are also a couple of lines that determine what wifi to connect to. In the workshop, we have set up a router for you which has the pre-filled name and password, but once you get home you will need to change these settings to work with your home network.
+
+```c
+// Wifi settings
+const char* ssid = "telia1";
+const char* password = "workshop";
+```
 
 **Bonus:** Try setting up boolean, number and string assets in AllThingsTalk and see if you can send in other types of data. All assets must have different names, but they can be updated the same way in the code.
 
@@ -161,17 +170,17 @@ You now have sensing and connectivity in place. The third component is presentin
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > SSD1306_Display`. Examine the code and see how it works.
 * The library is configured for a 128x32 display by default. If you press upload, the compiler will give you the following warning:
   
-  ```
+  ```c
   #error("Height incorrect, please fix Adafruit_SSD1306.h!");
   ```
   
   As it states, we need to edit a file called `Adafruit_SSD1306.h`:
   * Click `Sketch > Show Sketch Folder` to bring up a Finder or Explorer window. 
-  * Navigate one level up. You should now be in your `Arduino` folder.
-  * Go into `libraries > Adafruit_SSD1306` and open `Adafruit_SSD1306.h`.
+  * Navigate three levels up, to the `libraries`folder.
+  * Go into `libraries/Adafruit_SSD1306/` and open `Adafruit_SSD1306.h`.
   * Scroll down to the following part on line 72-76:
   
-    ```
+    ```c
         -----------------------------------------------------------------------*/
 	 // #define SSD1306_128_64
 	 	#define SSD1306_128_32
@@ -180,7 +189,7 @@ You now have sensing and connectivity in place. The third component is presentin
     ```
     and change it to:
     
-    ```
+    ```c
         -----------------------------------------------------------------------*/
 	    #define SSD1306_128_64
 	 //	#define SSD1306_128_32
