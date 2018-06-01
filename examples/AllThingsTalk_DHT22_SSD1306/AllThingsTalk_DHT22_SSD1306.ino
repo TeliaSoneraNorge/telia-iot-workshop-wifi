@@ -13,8 +13,13 @@
 #define http "api.allthingstalk.io"  // API endpoint
 #define mqtt "api.allthingstalk.io"  // broker
 
+// AllThingsTalk device credentials
 const char deviceId[] = "XXXXXX";
 const char deviceToken[] = "maker:XXXXXXXXXXXXXX";
+
+// Wifi settings
+const char* ssid = "telia1";
+const char* password = "workshop";
 
 void callback(char* topic, byte* payload, unsigned int length);
 WiFiClient espClient;
@@ -34,7 +39,7 @@ void setup() {
   // Clear the buffer.
   display.clearDisplay();
   dht.begin();
-  setupWiFi("telia1", "workshop");
+  setupWiFi(ssid, password);
   
   // Connect to AllThingsTalk
   while(!device.connect(&espClient, http)){
