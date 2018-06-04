@@ -148,7 +148,7 @@ Now that the wifi is working, let's move on to reading data from a sensor. The k
   | GND           | -             |
   | D7            | out           |
   
-* Click `Sketch > Include Library > Manage Libraries`, then search for `DHT` and install the `DHT sensor library by Adafruit`. Also search for and install `Adafruit Unified Sensor`.
+* Click `Sketch > Include Library > Manage Libraries`, then search for `DHT` and install the `DHT sensor library by Adafruit`. Also search for and install `Adafruit Unified Sensor` (it is usually the very last search result at the bottom).
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > DHT22_HumidityTemperature`. Examine the code and see how it works.
 * Press upload and check that you see temperature readings in the serial monitor.
 
