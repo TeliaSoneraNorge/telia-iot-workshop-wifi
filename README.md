@@ -75,7 +75,7 @@ You should see a window with text messages appearing once per second:
 <img src="img/serial_monitor.png" width=500px>
 
 
-**Bonus:** try adding another line with ```SerialUSB.print("Hi! ");``` and upload again. See the difference between ```print``` and ```println```?
+**Bonus:** try adding another line with ```Serial.print("Hi! ");``` and upload again. See the difference between ```print``` and ```println```?
 
 ## 4. Get connected
 The hardware is working, now let's make it talk to the Internet! For today, we will use an existing IoT platform to play with the data, but it could of course also be sent directly to your own app or website.
