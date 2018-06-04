@@ -20,6 +20,8 @@ The NodeMCU is a circuit board containing the popular ESP8266 module with built-
 	* [Windows](http://www.silabs.com/Support%20Documents/Software/CP210x_Windows_Drivers.zip)
 	* [Linux](http://www.silabs.com/Support%20Documents/Software/Linux_3.x.x_VCP_Driver_Source.zip)
 	* [Other](http://www.silabs.com/products/mcu/pages/usbtouartbridgevcpdrivers.aspx)
+	
+	*Note:* Mac users may need to go in to `System preferences > Security & Privacy > General` and click `Allow` to let the driver run.
 * Now, we need to install support for the ESP8266 module. Open up your newly installed Arduino software and click `Arduino > Preferences...`. Insert the following URL in the box titled `Additional Boards Manager URLs`:
 
 	```
