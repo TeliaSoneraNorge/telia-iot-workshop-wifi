@@ -134,7 +134,7 @@ const char* password = "workshop";
 **Bonus:** Try setting up boolean, number and string assets in AllThingsTalk and see if you can send in other types of data. All assets must have different names, but they can be updated the same way in the code.
 
 ## 5. Read sensors
-Now that the wifi is working, let's move on to reading data from a sensor. The kit includes a DHT22 sensor which can sense temperature and humidity. You need to install another library to handle the communication to the sensor and there is an example for how to use it included in the files you just installed.
+Now that the wifi is working, let's move on to reading data from a sensor. The kit includes a DHT22 sensor which can sense temperature and humidity ([datasheet here](https://cdn-shop.adafruit.com/datasheets/Digital+humidity+and+temperature+sensor+AM2302.pdf)). You need to install another library to handle the communication to the sensor and there is an example for how to use it included in the files you just installed.
 
 * Disconnect the NodeMCU from the computer and wire the DHT22 sensor like this:
 
@@ -150,7 +150,7 @@ Now that the wifi is working, let's move on to reading data from a sensor. The k
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > DHT22_HumidityTemperature`. Examine the code and see how it works.
 * Press upload and check that you see temperature readings in the serial monitor.
 
-**Bonus:** Play around with the code and see if you can adjust the accuracy of the temperature if it seems too high or too low. Temperature sensors usually have good relative accuracy, but may need "calibration" by adding or subtracting a few degrees to get good absolute accuracy.
+**Bonus:** Play around with the code and see if you can find the commands are used to read the temperature and humidity - you will need these later when we combine all the examples into the final project.
 
 ## 6. Write to the display
 You now have sensing and connectivity in place. The third component is presenting data on the LCD display. This kit includes a SD1306 0.96" 128x64 pixel LCD display that can be used to show custom graphics. Again, there is an example availabele once you install some libraries.
