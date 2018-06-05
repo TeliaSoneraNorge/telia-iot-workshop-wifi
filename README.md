@@ -148,7 +148,9 @@ Now that the wifi is working, let's move on to reading data from a sensor. The k
   | GND           | -             |
   | D7            | out           |
   
-* Click `Sketch > Include Library > Manage Libraries`, then search for `DHT` and install the `DHT sensor library by Adafruit`. Also search for and install `Adafruit Unified Sensor` (it is usually the very last search result at the bottom).
+* Click `Sketch > Include Library > Manage Libraries`, then search for and install
+	* `DHT sensor library by Adafruit`
+	* `Adafruit Unified Sensor by Adafruit` (usually the very last search result at the bottom)
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > DHT22_HumidityTemperature`. Examine the code and see how it works.
 * Press upload and check that you see temperature readings in the serial monitor.
 
@@ -168,7 +170,9 @@ You now have sensing and connectivity in place. The third component is presentin
   | D1            | SCK           |
   | D2            | SDA           |
   
-* Click `Sketch > Include Library > Manage Libraries`, then search for `ssd1306` and install the `Adafruit SSD1306 by Adafruit`. Also search for and install the `Adafruit GFX Library`.
+* Click `Sketch > Include Library > Manage Libraries`, then search for and install
+	* `Adafruit SSD1306 by Adafruit`
+	* `Adafruit GFX Library by Adafruit`
 * Open the example code by clicking `File > Examples > Telia-AllThingsTalk > SSD1306_Display`. Examine the code and see how it works.
 * The library is configured for a 128x32 display by default. If you press upload, the compiler will give you the following warning:
   
